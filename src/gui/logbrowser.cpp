@@ -76,7 +76,10 @@ LogBrowser::LogBrowser(QWidget *parent)
     auto openFolderButton = new QPushButton;
     openFolderButton->setText(tr("Open folder"));
     connect(openFolderButton, &QPushButton::clicked, this, []() {
-        QDesktopServices::openUrl(Logger::instance()->temporaryFolderLogDirPath());
+        QString path = Logger::instance()->temporaryFolderLogDirPath();
+        QDir().mkpath(path);
+        qDebug() << QUrl::fromLocalFile(path);
+        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
     });
     mainLayout->addWidget(openFolderButton);
 
